@@ -1,0 +1,84 @@
+function raise1Fplayer(handles, r)
+
+global betval;
+global bets;
+global raise;
+
+pbet=get(handles.betText, 'String');
+pbet=str2num(pbet);
+p1=get(handles.pbankText, 'String');
+p1=str2double(p1);
+%add pause
+
+
+%% Player
+
+badbet=false;
+
+
+called=false;
+x=0;
+for iv=1:5
+    if betval==bets(iv)
+        x=x+1;
+    end
+    if x==5
+        called=true;
+    end
+end
+
+if called ==fa
+
+if pbet<=p1
+    %if bets(1:5)~=betval
+    if called==false
+        
+        if raise(1)==2
+            %player can only call or fold
+            if pbet~=(betval-bets(1))
+                %player bet too much and cannot do this
+                %or player bet too little and this is invalid bet
+                badbet=true;
+            else
+                %called or checked
+            end
+        else
+            %player can call fold or raise
+            if pbet==(betval-bets(1)) %betval-bets(1) is the remaining amount you need to call
+                %called or checked
+            elseif pbet>(betval-bets(1))
+                %raise
+                raise(1)=raise(1)+1;
+                betval=betval+pbet;
+            else
+                badbet=true;
+            end
+        end
+    end
+else
+    badbet=true;
+end
+
+if badbet==false
+    bets(1)=betval;
+    p1=p1-pbet;
+    p1=num2str(p1);
+    set(handles.pbankText, 'String', p1);
+    pot=get(handles.potText, 'String');
+    pot=str2num(pot);
+    pot=pot+pbet;
+    set(handles.potText, 'String', num2str(pot));
+    %move to next function that declares the computers decisions
+    raise1Fcomps(handles, r);
+else
+    %display that this bet is invalid and redo this function after button
+    %pushed(so just change action text that isnt done yet)
+    list=get(handles.actionsList, 'string');
+    temp = char(list);
+    antestring=['Invalid bet.'];
+    list=strvcat(antestring, temp);
+    set(handles.actionsList, 'string', cellstr(list));
+    set(handles.betButton, 'String', 'Raise(1)');
+end
+
+        

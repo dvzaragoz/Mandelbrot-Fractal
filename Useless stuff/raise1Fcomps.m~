@@ -1,0 +1,504 @@
+function raise1Fcomps(handles, r)
+
+global betval;
+global bets;
+global raise;
+
+seconds=.5;
+
+if bets(1:5)==betval
+    allcalled=true;
+else
+    allcalled=false;
+end
+
+%% Computer 1
+
+global foldcomp1;
+c1cards=[r(8) r(9)];
+x=randi(10);
+
+if allcalled==false && foldcomp1==false
+    %dont need an else because going to be at end, it just wont enter this
+    %if still need to call bet
+    if raise(2)~=2
+        if c1cards(1).val==c1cards(2).val
+            if x<9
+                %call
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 1 called.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            else
+                %raise
+                raise(2)=raise(2)+1;
+                betval=betval+50;
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 1 raised ', num2str(betval-bets(2)) , '.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            end
+        elseif c1cards(1).suitnum==c1cards(2).suitnum
+            if x<8
+                %call
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 1 called.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            else
+                %raise
+                raise(2)=raise(2)+1;
+                betval=betval+20;
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 1 raised ', num2str(betval-bets(2)) , '.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            end
+        elseif c1cards(1).val==14 || c1cards(2).val==14
+            if x<=8
+                %call
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 1 called.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            else
+                %raise
+                raise(2)=raise(2)+1;
+                betval=betval+20;
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 1 raised ', num2str(betval-bets(2)) , '.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            end
+        else
+            if x<=8
+                %call
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 1 called.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            elseif x==9
+                %raise
+                raise(2)=raise(2)+1;
+                betval=betval+20;
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 1 raised ', num2str(betval-bets(2)) , '.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            else
+                %fold
+                foldcomp1=true;
+            end
+        end
+    else
+        if c1cards(1).val==c1cards(2).val || c1cards(1).suitnum==c1cards(2).suitnum ...
+                || c1cards(1).val==14 || c1cards(2).val==14 || x>2
+            %call
+            list=get(handles.actionsList, 'string');
+            temp = char(list);
+            antestring=['Computer 1 called.'];
+            list=strvcat(temp, antestring);
+            set(handles.actionsList, 'string', cellstr(list));
+        else
+            %fold
+            foldcomp1=truel;
+        end
+    end
+    
+    
+    if foldcomp1==false
+        cbet=betval-bets(2);
+        bets(2)=betval;
+        c1=get(handles.c1bankText, 'String');
+        c1=str2double(c1);
+        c1=c1-cbet;
+        c1=num2str(c1);
+        set(handles.c1bankText, 'String', c1);
+        pot=get(handles.potText, 'String');
+        pot=str2num(pot);
+        pot=pot+cbet;
+        set(handles.potText, 'String', num2str(pot));
+    end
+end
+
+if foldcomp1==true
+    bets(2)=betval;
+end
+%what do we do if he folds
+
+pause(seconds);
+
+%% Computer 2
+
+if bets(1:5)==betval
+    allcalled=true;
+else
+    allcalled=false;
+end
+
+
+global foldcomp2
+c1cards=[r(10) r(11)];
+x=randi(10);
+
+if allcalled==false && foldcomp2==false
+    %dont need an else because going to be at end, it just wont enter this
+    %if still need to call bet
+    if raise(3)~=2
+        if c1cards(1).val==c1cards(2).val
+            if x<9
+                %call
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 2 called.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            else
+                %raise
+                raise(3)=raise(3)+1;
+                betval=betval+50;
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 2 raised ', num2str(betval-bets(3)) , '.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            end
+        elseif c1cards(1).suitnum==c1cards(2).suitnum
+            if x<8
+                %call
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 2 called.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            else
+                %raise
+                raise(3)=raise(3)+1;
+                betval=betval+20;
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 2 raised ', num2str(betval-bets(3)) , '.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            end
+        elseif c1cards(1).val==14 || c1cards(2).val==14
+            if x<=8
+                %call
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 2 called.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            else
+                %raise
+                raise(3)=raise(3)+1;
+                betval=betval+20;
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 2 raised ', num2str(betval-bets(3)) , '.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            end
+        else
+            if x<=8
+                %call
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 2 called.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            elseif x==9
+                %raise
+                raise(3)=raise(3)+1;
+                betval=betval+20;
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 2 raised ', num2str(betval-bets(3)) , '.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            else
+                %fold
+                foldcomp2=true;
+            end
+        end
+    else
+        if c1cards(1).val==c1cards(2).val || c1cards(1).suitnum==c1cards(2).suitnum ...
+                || c1cards(1).val==14 || c1cards(2).val==14 || x>2
+            %call
+            list=get(handles.actionsList, 'string');
+            temp = char(list);
+            antestring=['Computer 2 called.'];
+            list=strvcat(temp, antestring);
+            set(handles.actionsList, 'string', cellstr(list));
+        else
+            %fold
+            foldcomp2=truel;
+        end
+    end
+    
+    
+    if foldcomp2==false
+        cbet=betval-bets(3);
+        bets(3)=betval;
+        c1=get(handles.c2bankText, 'String');
+        c1=str2double(c1);
+        c1=c1-cbet;
+        c1=num2str(c1);
+        set(handles.c2bankText, 'String', c1);
+        pot=get(handles.potText, 'String');
+        pot=str2num(pot);
+        pot=pot+cbet;
+        set(handles.potText, 'String', num2str(pot));
+    end
+end
+
+if foldcomp2==true
+    bets(3)=betval;
+end
+
+pause(seconds);
+
+
+%% Computer 3
+
+if bets(1:5)==betval
+    allcalled=true;
+else
+    allcalled=false;
+end
+
+
+global foldcomp3
+c1cards=[r(12) r(13)];
+x=randi(10);
+
+if allcalled==false && foldcomp3==false
+    %dont need an else because going to be at end, it just wont enter this
+    %if still need to call bet
+    if raise(4)~=2
+        if c1cards(1).val==c1cards(2).val
+            if x<9
+                %call
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 3 called.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            else
+                %raise
+                raise(4)=raise(4)+1;
+                betval=betval+50;
+                        list=get(handles.actionsList, 'string');
+        temp = char(list);
+        antestring=['Computer 3 raised ', num2str(betval-bets(4)) , '.'];
+        list=strvcat(temp, antestring);
+        set(handles.actionsList, 'string', cellstr(list));
+            end
+        elseif c1cards(1).suitnum==c1cards(2).suitnum
+            if x<8
+                %call
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 3 called.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            else
+                %raise
+                raise(4)=raise(4)+1;
+                betval=betval+20;
+                        list=get(handles.actionsList, 'string');
+        temp = char(list);
+        antestring=['Computer 3 raised ', num2str(betval-bets(4)) , '.'];
+        list=strvcat(temp, antestring);
+        set(handles.actionsList, 'string', cellstr(list));
+            end
+        elseif c1cards(1).val==14 || c1cards(2).val==14
+            if x<=8
+                %call
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 3 called.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            else
+                %raise
+                raise(4)=raise(4)+1;
+                betval=betval+20;
+                        list=get(handles.actionsList, 'string');
+        temp = char(list);
+        antestring=['Computer 3 raised ', num2str(betval-bets(4)) , '.'];
+        list=strvcat(temp, antestring);
+        set(handles.actionsList, 'string', cellstr(list));
+            end
+        else
+            if x<=8
+                %call
+                list=get(handles.actionsList, 'string');
+                temp = char(list);
+                antestring=['Computer 3 called.'];
+                list=strvcat(temp, antestring);
+                set(handles.actionsList, 'string', cellstr(list));
+            elseif x==9
+                %raise
+                raise(4)=raise(4)+1;
+                betval=betval+20;
+            else
+                %fold
+                foldcomp3=true;
+            end
+        end
+    else
+        if c1cards(1).val==c1cards(2).val || c1cards(1).suitnum==c1cards(2).suitnum ...
+                || c1cards(1).val==14 || c1cards(2).val==14 || x>2
+            %call
+            list=get(handles.actionsList, 'string');
+            temp = char(list);
+            antestring=['Computer 3 called.'];
+            list=strvcat(temp, antestring);
+            set(handles.actionsList, 'string', cellstr(list));
+        else
+            %fold
+            foldcomp3=truel;
+        end
+    end
+    
+    
+    if foldcomp3==false
+        cbet=betval-bets(4);
+        bets(4)=betval;
+        c1=get(handles.c3bankText, 'String');
+        c1=str2double(c1);
+        c1=c1-cbet;
+        c1=num2str(c1);
+        set(handles.c3bankText, 'String', c1);
+        pot=get(handles.potText, 'String');
+        pot=str2num(pot);
+        pot=pot+cbet;
+        set(handles.potText, 'String', num2str(pot));
+    end
+end
+
+if foldcomp3==true
+    bets(4)=betval;
+end
+
+pause(seconds);
+
+%% Computer 4
+
+if bets(1:5)==betval
+    allcalled=true;
+else
+    allcalled=false;
+end
+
+
+global foldcomp4
+c1cards=[r(12) r(13)];
+x=randi(10);
+
+if allcalled==false && foldcomp4==false
+    %dont need an else because going to be at end, it just wont enter this
+    %if still need to call bet
+    if raise(5)~=2
+        if c1cards(1).val==c1cards(2).val
+            if x<9
+                %call
+            else
+                %raise
+                raise(5)=raise(5)+1;
+                betval=betval+50;
+            end
+        elseif c1cards(1).suitnum==c1cards(2).suitnum
+            if x<8
+                %call
+            else
+                %raise
+                raise(5)=raise(5)+1;
+                betval=betval+20;
+            end
+        elseif c1cards(1).val==14 || c1cards(2).val==14
+            if x<=8
+                %call
+            else
+                %raise
+                raise(5)=raise(5)+1;
+                betval=betval+20;
+            end
+        else
+            if x<=8
+                %call
+            elseif x==9
+                %raise
+                raise(5)=raise(5)+1;
+                betval=betval+20;
+            else
+                %fold
+                foldcomp4=true;
+            end
+        end
+    else
+        if c1cards(1).val==c1cards(2).val || c1cards(1).suitnum==c1cards(2).suitnum ...
+                || c1cards(1).val==14 || c1cards(2).val==14 || x>2
+            %call
+        else
+            %fold
+            foldcomp4=truel;
+        end
+    end
+    
+    
+    if foldcomp4==false
+        cbet=betval-bets(5);
+        bets(5)=betval;
+        c1=get(handles.c4bankText, 'String');
+        c1=str2double(c1);
+        c1=c1-cbet;
+        c1=num2str(c1);
+        set(handles.c4bankText, 'String', c1);
+        pot=get(handles.potText, 'String');
+        pot=str2num(pot);
+        pot=pot+cbet;
+        set(handles.potText, 'String', num2str(pot));
+    end
+end
+
+if foldcomp4==true
+    bets(5)=betval;
+end
+
+pause(seconds);
+
+
+if bets(1:5)==betval
+    allcalled=true;
+else
+    allcalled=false;
+end
+
+if allcalled==true
+    t=get(handles.actionText, 'String');
+    set(handles.betButton, 'String', 'Bet (2)');
+    car11=imread(r(1).pic);
+    car12=imread(r(2).pic);
+    car13=imread(r(3).pic);
+    card=image(car11, 'Parent', handles.c11);
+    axis(handles.c11, 'off');
+    card=image(car12, 'Parent', handles.c12);
+    axis(handles.c12, 'off');
+    card=image(car13, 'Parent', handles.c13);
+    axis(handles.c13, 'off');
+else
+    %does this just stay blank
+    set(handles.betButton, 'String', 'Raise(1)');
+end
+
+

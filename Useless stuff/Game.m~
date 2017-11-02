@@ -1,0 +1,139 @@
+%Texas Hold'em
+
+[deal, yourstring, compstring, comp2string, comp3string, comp4string, winner]=Winner;
+pot=0;
+ante=10;
+startcash=500;
+yourbank=startcash;
+comp1bank=startcash;
+comp2bank=startcash;
+comp3bank=startcash;
+comp4bank=startcash;
+maxbet=50;
+
+pot=5*ante;
+yourbank=yourbank-ante;
+comp1bank=comp1bank-ante;
+comp2bank=comp2bank-ante;
+comp3bank=comp3bank-ante;
+comp4bank=comp4bank-ante;
+
+disp(['Your cash:', num2str(yourbank)])
+disp('Your cards:')
+for iv=6:7
+    disp(deal(iv).str)
+end
+
+bet1=input('How much would you like to bet(max 50)?');
+yourbank=yourbank-bet1;
+pot=pot+bet1;
+
+disp('All computers call')
+pot=pot+4*bet1;
+
+disp(['There is ', num2str(pot), ' in the pot'])
+
+disp('Middle:')
+for iv=1:3
+    disp(deal(iv).str)
+end
+
+disp('Your cards:')
+for iv=6:7
+    disp(deal(iv).str)
+end
+
+bet2=input('How much would you like to bet(max 50)?');
+yourbank=yourbank-bet2;
+pot=pot+bet2;
+
+disp('All computers call')
+pot=pot+4*bet2;
+
+disp(['There is ', num2str(pot), ' in the pot'])
+
+disp('Middle:')
+for iv=1:4
+    disp(deal(iv).str)
+end
+
+disp('Your cards:')
+for iv=6:7
+    disp(deal(iv).str)
+end
+
+bet3=input('How much would you like to bet(max 50)?');
+yourbank=yourbank-bet3;
+pot=pot+bet3;
+
+disp('All computers call')
+pot=pot+4*bet3;
+
+disp(['There is ', num2str(pot), ' in the pot'])
+
+disp('Middle:')
+for iv=1:5
+    disp(deal(iv).str)
+end
+
+disp('Your cards:')
+for iv=6:7
+    disp(deal(iv).str)
+end
+
+bet4=input('How much would you like to bet(max 50)?');
+yourbank=yourbank-bet4;
+pot=pot+bet4;
+
+disp('All computers call')
+pot=pot+4*bet4;
+
+disp(['There is ', num2str(pot), ' in the pot'])
+
+disp('Computer 1s hand')
+for iv=8:9
+    disp(deal(iv).str)
+end
+disp('Computer 2s hand')
+for iv=10:11
+    disp(deal(iv).str)
+end
+disp('Computer 3s hand')
+for iv=12:13
+    disp(deal(iv).str)
+end
+disp('Computer 4s hand')
+for iv=14:15
+    disp(deal(iv).str)
+end
+disp(winner)
+switch winner
+    case 'You tied'
+        %problem section
+        yourbank=yourbank+(1/5)*pot;
+        comp1bank=comp1bank+(1/5)*pot;
+        comp2bank=comp2bank+(1/5)*pot;
+        comp3bank=comp3bank+(1/5)*pot;
+        comp4bank=comp4bank+(1/5)*pot;
+        disp('Theres a problem here, but will be fixed later')
+    case 'You win'
+        yourbank=yourbank+pot;
+    case 'Computer 1 Wins'
+        comp1bank=comp1bank+pot;
+    case 'Computer 2 Wins'
+        comp2bank=comp2bank+pot;
+    case 'Computer 3 Wins'
+        comp3bank=comp2bank+pot;
+    case 'Computer 4 Wins'
+        comp4bank=comp4bank+pot;
+end
+
+disp(['Your bank:', num2str(yourbank)])
+disp(['Comp1 bank:', num2str(comp1bank)])
+
+disp(['Comp2 bank:', num2str(comp1bank)])
+
+disp(['Comp3 bank:', num2str(comp1bank)])
+
+disp(['Comp4 bank:', num2str(comp1bank)])
+

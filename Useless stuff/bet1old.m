@@ -1,0 +1,329 @@
+function bet1(handles, r)
+
+global betval;
+global raise;
+global bets;
+bets=[0 0 0 0 0];
+raise=[0 0 0 0 0];
+
+pbet=get(handles.betText, 'String');
+pbet=str2num(pbet);
+p1=get(handles.pbankText, 'String');
+p1=str2double(p1);
+seconds=1;
+limit=200;
+
+if pbet<=p1 && pbet<=limit
+    p1=p1-pbet;
+    p1=num2str(p1);
+    set(handles.pbankText, 'String', p1);
+    pot=get(handles.potText, 'String');
+    pot=str2num(pot);
+    pot=pot+pbet;
+    set(handles.potText, 'String', num2str(pot));
+    betval=p1;
+    bets(1)=betval;
+else
+    set(handles.actionText, 'String', 'You bet more than you have or over the limit. Place a new bet.');
+end
+
+
+%% computer 1 bet
+
+% r 8 and 9
+
+global foldcomp1;
+foldcomp1=false;
+c1cards=[r(8) r(9)];
+x=randi(10);
+
+if c1cards(1).val==c1cards(2).val
+    if x<=2
+        %call
+    else
+        %raise
+        raise(2)=1;
+        betval=betval+50;
+    end
+elseif c1cards(1).suitnum==c1cards(2).suitnum
+    if x<=5
+        %call
+    else
+        %raise
+        raise(2)=1;
+        betval=betval+20;
+    end 
+elseif c1cards(1).val==14 || c1cards(2).val==14
+    if x<=8
+        %call
+        call=call+1;
+    else
+        %raise
+        raise(2)=1;
+        betval=betval+20;
+    end
+else
+    if x<=8
+        %call
+    elseif x==9
+        %raise
+        raise(2)=1;
+        betval=betval+20;
+    else
+        %fold
+        foldcomp1=true;
+        set(handles.c1Text, 'String', 'Fold');
+    end
+end
+
+if foldcomp1==false
+    betval(2)=betval(2)+bet;
+    cbet=bet;
+    c1=get(handles.c1bankText, 'String');
+    c1=str2double(c1);
+    c1=c1-cbet;
+    c1=num2str(c1);
+    set(handles.c1bankText, 'String', c1);
+    pot=get(handles.potText, 'String');
+    pot=str2num(pot);
+    pot=pot+cbet;
+    set(handles.potText, 'String', num2str(pot));
+end
+pause(seconds);
+
+
+%% computer 2 bet
+
+% r 10 and 11
+
+global foldcomp2;
+foldcomp2=false;
+c1cards=[r(10) r(11)];
+x=randi(10);
+
+if c1cards(1).val==c1cards(2).val
+    if x<=2
+        %call
+        call=call+1;
+    else
+        %raise
+        raise(3)=1;
+        bet=bet+50;
+        call=0;
+    end
+elseif c1cards(1).suitnum==c1cards(2).suitnum
+    if x<=5
+        %call
+        call=call+1;
+    else
+        %raise
+        raise(3)=1;
+        bet=bet+20;
+        call=0;
+    end 
+elseif c1cards(1).val==14 || c1cards(2).val==14
+    if x<=8
+        %call
+        call=call+1;
+    else
+        %raise
+        raise(3)=1;
+        bet=bet+20;
+        call=0;
+    end
+else
+    if x<=8
+        %call
+        call=call+1;
+    elseif x==9
+        %raise
+        raise(3)=1;
+        bet=bet+20;
+        call=0;
+    else
+        %fold
+        foldcomp2=true;
+        call=call+1;
+        set(handles.c2Text, 'String', 'Fold');
+        
+    end
+end
+
+if foldcomp2==false
+    betval(3)=betval(3)+bet;
+    cbet=bet;
+    c2=get(handles.c2bankText, 'String');
+    c2=str2double(c2);
+    c2=c2-cbet;
+    c2=num2str(c2);
+    set(handles.c2bankText, 'String', c2);
+    pot=get(handles.potText, 'String');
+    pot=str2num(pot);
+    pot=pot+cbet;
+    set(handles.potText, 'String', num2str(pot));
+end
+
+pause(seconds);
+    
+%% computer 3 bet
+
+% r 12 and 13
+
+global foldcomp3;
+foldcomp3=false;
+c1cards=[r(12) r(13)];
+x=randi(10);
+
+if c1cards(1).val==c1cards(2).val
+    if x<=2
+        %call
+        call=call+1;
+    else
+        %raise
+        raise(4)=1;
+        bet=bet+50;
+        call=0;
+    end
+elseif c1cards(1).suitnum==c1cards(2).suitnum
+    if x<=5
+        %call
+        call=call+1;
+    else
+        %raise
+        raise(4)=1;
+        bet=bet+20;
+        call=0;
+    end 
+elseif c1cards(1).val==14 || c1cards(2).val==14
+    if x<=8
+        %call
+        call=call+1;
+    else
+        %raise
+        call=0;
+        raise(4)=1;
+        bet=bet+20;
+    end
+else
+    if x<=8
+        %call
+        call=call+1;
+    elseif x==9
+        %raise
+        raise(4)=1;
+        bet=bet+20;
+        call=0;
+    else
+        %fold
+        foldcomp3=true;
+        call=call+1;
+        set(handles.c3Text, 'String', 'Fold');
+        
+    end
+end
+
+cbet=bet;
+
+if foldcomp3==false
+    betval(4)=betval(4)+bet;
+    c3=get(handles.c3bankText, 'String');
+    c3=str2double(c3);
+    c3=c3-cbet;
+    c3=num2str(c3);
+    set(handles.c3bankText, 'String', c3);
+    pot=get(handles.potText, 'String');
+    pot=str2num(pot);
+    pot=pot+cbet;
+    set(handles.potText, 'String', num2str(pot));
+end
+
+pause(seconds);
+
+%% Computer 4 Bet
+% r 14 and 15
+
+global foldcomp4;
+foldcomp4=false;
+c1cards=[r(14) r(15)];
+x=randi(10);
+
+if c1cards(1).val==c1cards(2).val
+    if x<=2
+        %call
+        call=call+1;
+    else
+        %raise
+        raise(5)=1;
+        bet=bet+50;
+        call=0;
+    end
+elseif c1cards(1).suitnum==c1cards(2).suitnum
+    if x<=5
+        %call
+        call=call+1;
+    else
+        %raise
+        raise(5)=1;
+        bet=bet+20;
+        call=0;
+    end
+elseif c1cards(1).val==14 || c1cards(2).val==14
+    if x<=8
+        %call
+        call=call+1;
+    else
+        %raise
+        raise(5)=1;
+        bet=bet+20;
+        call=0;
+    end
+else
+    if x<=8
+        %call
+        call=call+1;
+    elseif x==9
+        %raise
+        raise(5)=1;
+        bet=bet+20;
+        call=0;
+    else
+        %fold
+        foldcomp4=true;
+        call=call+1;
+        set(handles.c4Text, 'String', 'Fold');
+        
+    end
+end
+
+cbet=bet;
+
+if foldcomp4==false
+    betval(5)=betval(5)+bet;
+    c4=get(handles.c4bankText, 'String');
+    c4=str2double(c4);
+    c4=c4-cbet;
+    c4=num2str(c4);
+    set(handles.c4bankText, 'String', c4);
+    pot=get(handles.potText, 'String');
+    pot=str2num(pot);
+    pot=pot+cbet;
+    set(handles.potText, 'String', num2str(pot));
+end
+
+pause(seconds);
+
+if call==4
+    t=get(handles.actionText, 'String');
+    set(handles.betButton, 'String', 'Bet (2)');
+    car11=imread(r(1).pic);
+    car12=imread(r(2).pic);
+    car13=imread(r(3).pic);
+    card=image(car11, 'Parent', handles.c11);
+    axis(handles.c11, 'off');
+    card=image(car12, 'Parent', handles.c12);
+    axis(handles.c12, 'off');
+    card=image(car13, 'Parent', handles.c13);
+    axis(handles.c13, 'off');
+else
+    set(handles.betButton, 'String', 'Raise(1)');
+end

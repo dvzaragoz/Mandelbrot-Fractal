@@ -1,0 +1,9 @@
+function fold(handles)
+
+global values;
+global userfold;
+global yourstring;
+
+values(1)=0;
+yourstring='You fold.';
+userfold=true;
