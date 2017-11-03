@@ -1,3 +1,4 @@
+**Texas Hold 'Em**<br>
 A MATLAB game that simulates a game of Texas Hold 'Em against 4 computer opponents.<br>
 An in-game probability calculator offers advice on the chance of getting hands.<br>
 <br>
